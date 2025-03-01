@@ -1,3 +1,4 @@
+{% load static %}
 <h1>LISTA DE ALUNOS</h1>
 <table class="table">
     <thead>
@@ -10,15 +11,16 @@
     </thead>
     <tbody>
         {% for i in aluno %}
-            <tr>
+            <tr id="aluno-{{i.id}}">
                 <th scope="row">{{i.id}}</th>
                 <td>{{i.nome}}</td>
                 <td>{{i.email}}</td>
                 <td>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Editar</button>
-                    <button type="button" class="btn btn-danger">Excluir</button>
+                    <button type="button" class="btn btn-danger" onclick="deletar({{i.id}})">Excluir</button>
                 </td>
             </tr>
         {% endfor %}
     </tbody>
 </table>
+<script src="{% static 'js/listar_alunos.js' %}"></script>
