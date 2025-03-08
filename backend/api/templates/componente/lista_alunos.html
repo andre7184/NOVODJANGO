@@ -10,11 +10,11 @@
         </tr>
     </thead>
     <tbody>
-        {% for i in aluno %}
+        {% for i in usuarios %}
             <tr id="aluno-{{i.id}}">
                 <th scope="row">{{i.id}}</th>
-                <td>{{i.nome}}</td>
-                <td>{{i.email}}</td>
+                <td>{{i.username}}</td>
+                <td>{{i.password}}</td>
                 <td>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Editar</button>
                     <button type="button" class="btn btn-danger" onclick="deletar({{i.id}})">Excluir</button>
