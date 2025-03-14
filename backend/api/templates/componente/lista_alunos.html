@@ -1,26 +1,27 @@
+<!-- listar_alunos.html -->
 {% load static %}
-<h1>LISTA DE ALUNOS</h1>
-<table class="table">
+{% csrf_token %}
+<table class="table table-bordered">
     <thead>
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">NOME</th>
-            <th scope="col">EMAIL</th>
-            <th scope="col">ACAO</th>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Ações</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="alunos-table">
         {% for i in usuarios %}
-            <tr id="aluno-{{i.id}}">
-                <th scope="row">{{i.id}}</th>
-                <td>{{i.username}}</td>
-                <td>{{i.password}}</td>
+            <tr id="aluno-{{ i.id }}">
+                <td>{{ i.id }}</td>
+                <td>{{ i.username }}</td>
+                <td>{{ i.password }}</td>
                 <td>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Editar</button>
-                    <button type="button" class="btn btn-danger" onclick="deletar({{i.id}})">Excluir</button>
+                    <button class="btn btn-danger" onclick="deletarAluno({{ i.id }})">Deletar</button>
+                    <a href="/criarAluno/{{i.id}}" class="btn btn-primary">Editar</a>
                 </td>
             </tr>
         {% endfor %}
     </tbody>
 </table>
-<script src="{% static 'js/listar_alunos.js' with aluno=alunos %}"></script>
+<script src="{% static 'js/listar.js' %}"></script>

@@ -1,19 +1,25 @@
-async function apiFetch(url, method='GET', body=null, headers={}) {
+async function apiRequest(url, method = 'GET', body = null, headers = {}) {
     try {
         const config = {
             method,
-            headers:{
+            headers: {
                 'Content-Type': 'application/json',
                 ...headers
             },
         };
+
         if (body) {
             config.body = JSON.stringify(body);
         }
-        const resposta = await fetch(url, config);
-        return await resposta.json();
+
+        const response = await fetch(url, config);
+        if (!response.ok) {
+            throw new Error(`Erro: ${response.status} - ${response.statusText}`);
+        }
+
+        return await response.json();
     } catch (error) {
-        console.log(error);
+        console.error('Erro na requisição:', error);
+        return null;
     }
 }
-alert('oi')
