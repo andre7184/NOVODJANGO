@@ -3,7 +3,7 @@ async function Login(event){
     const nome = document.getElementById("nome").value;
     const senha = document.getElementById("senha").value;
 
-    const response = await apiRequest("/api/login", "POST", {nome: nome, senha: senha}, {"X-CSRFToken": "{{ csrf_token }}"})
+    const response = await apiFetch("/api/login", "POST", {nome: nome, senha: senha}, {"X-CSRFToken": "{{ csrf_token }}"})
 
     if(response.status == 200){
         window.location.href = "/home";

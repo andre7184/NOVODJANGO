@@ -1,28 +1,28 @@
 from django.shortcuts import redirect, render
 
-from ..models import *
+from ..models import CustomUser
 
-
-def login(request):
-    return render(request, 'login.html')
 
 def home(request):
     if not request.user.is_authenticated:
-        return render(request, 'login.html')
-    else:
-        users = CustomUser.objects.all()
-        return render(request, 'home.html', {'usuarios': users})
+        return redirect('login')
+    
+    user = CustomUser.objects.all()
+    return render(request, 'home.html', {'usuarios': user})
+
+def login(request):
+    return render(request, 'login.html')
 
 def criar_aluno(request,id=None):
     if not request.user.is_authenticated:
         return render(request, 'login.html')
     else:
         if id:
-            user = CustomUser.objects.filter(id=id).first()
-            if user:
-                return render(request, 'criar_alunos.html', {'usuarioDetalhe': user})   
+            usuario = CustomUser.objects.filter(id=id).first()
+            if usuario:
+                return render(request, 'criarAluno.html', {'aluno': usuario})   
             else:
                 return redirect('CriarAluno') #o nome no redirect é dado pelo name colocado na rota no arquivo urls.py
 
-        return render(request, 'criar_alunos.html')
+        return render(request, 'criarAluno.html')
         

@@ -1,26 +1,26 @@
-async function enviarFormularioAluno(event) {
+async function enviarFormulario(event) {
     event.preventDefault(); // Impede o recarregamento da página
 
     const nome = document.getElementById("nome").value;
     const senha = document.getElementById("senha").value;
+    const csrs = document.querySelector("[name=csrfmiddlewaretoken]").value;
 
-    const path = window.location.pathname;
-    const parts = path.split('/');
-    const id = parts[parts.length - 1];
-    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-    let response
+    const url = window.location.pathname;
+    const id = url.substring(url.lastIndexOf("/") + 1);
+
+    let resposta;
 
     if (id) {
-        response = await apiRequest(`/api/user/${id}`, "PUT", { username: nome, password: senha }, { "X-CSRFToken": csrfToken })
+        resposta = await apiFetch("/api/user/" + id, "PUT", {'username': nome, 'password': senha}, {'X-CSRFToken': csrs});
     } else {
-        response = await apiRequest("/api/user", "POST", { username: nome, password: senha }, { "X-CSRFToken": csrfToken })
+        resposta = await apiFetch("/api/user/", "POST", {'username': nome, 'password': senha}, {'X-CSRFToken': csrs});
     }
-
-    if (response) {
-        window.location.href = "/home"; // Redireciona após cadastro
+    // console.log(resposta);
+    if (resposta.ok) {
+        window.location.href = "/home";
     } else {
-        throw new Error("Erro ao cadastrar aluno");
+        document.getElementById("mensagem").innerHTML = "Erro ao cadastrar aluno";
     }
 }
 
-document.getElementById("alunoForm").addEventListener("submit", enviarFormularioAluno);
+document.getElementById("alunoForm").addEventListener("submit", enviarFormulario);

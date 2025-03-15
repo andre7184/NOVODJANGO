@@ -17,8 +17,8 @@
                 <td>{{ i.username }}</td>
                 <td>{{ i.password }}</td>
                 <td>
-                    <button class="btn btn-danger" onclick="deletarAluno({{ i.id }})">Deletar</button>
-                    <a href="/criarAluno/{{i.id}}" class="btn btn-primary">Editar</a>
+                    <button onclick="deletarAluno({{ i.id }})">Deletar</button>
+                    <button><a href="/criarAluno/{{i.id}}" class="btn btn-primary">Editar</a></button>
                 </td>
             </tr>
         {% endfor %}
