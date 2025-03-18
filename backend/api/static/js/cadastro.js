@@ -9,14 +9,13 @@ async function enviarFormulario(event) {
     const id = url.substring(url.lastIndexOf("/") + 1);
 
     let resposta;
-
     if (id) {
         resposta = await apiFetch("/api/user/" + id, "PUT", {'username': nome, 'password': senha}, {'X-CSRFToken': csrs});
     } else {
-        resposta = await apiFetch("/api/user/", "POST", {'username': nome, 'password': senha}, {'X-CSRFToken': csrs});
+        resposta = await apiFetch("/api/user", "POST", {'username': nome, 'password': senha}, {'X-CSRFToken': csrs});
     }
-    // console.log(resposta);
-    if (resposta.ok) {
+
+    if (resposta.status == 201) {
         window.location.href = "/home";
     } else {
         document.getElementById("mensagem").innerHTML = "Erro ao cadastrar aluno";

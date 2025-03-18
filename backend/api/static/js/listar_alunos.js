@@ -1,8 +1,7 @@
 async function deletar(id) {
-    const resposta = await fetch('/api/alunos/' + id, {
-        method: 'DELETE'
-    })
-    if (resposta.ok) {
+    const csrs = document.querySelector("[name=csrfmiddlewaretoken]").value;
+    const resposta = await apiFetch('/api/user/' + id, 'DELETE',null,{'X-CSRFToken': csrs})
+    if (resposta.status == 200) {
         var linhaAluno = document.getElementById('aluno-' + id)
         linhaAluno.remove()
     }

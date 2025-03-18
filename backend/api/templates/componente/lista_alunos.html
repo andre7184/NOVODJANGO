@@ -17,11 +17,11 @@
                 <td>{{ i.username }}</td>
                 <td>{{ i.password }}</td>
                 <td>
-                    <button onclick="deletarAluno({{ i.id }})">Deletar</button>
+                    <button onclick="deletar({{ i.id }})">Deletar</button>
                     <button><a href="/criarAluno/{{i.id}}" class="btn btn-primary">Editar</a></button>
                 </td>
             </tr>
         {% endfor %}
     </tbody>
 </table>
-<script src="{% static 'js/listar.js' %}"></script>
+<script src="{% static 'js/listar_alunos.js' %}"></script>

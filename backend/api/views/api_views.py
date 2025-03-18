@@ -24,7 +24,7 @@ class User(APIView):
         senha = request.data.get('password')
 
         if not nome or not senha:
-            return Response({'error': 'Todos os campos são obrigatórios'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Todos os campos são obrigatórios', 'status': status.HTTP_400_BAD_REQUEST})
         
         usuario = CustomUser.objects.create(
             username=nome, 
@@ -32,10 +32,15 @@ class User(APIView):
             is_active=True,
             is_aluno=True
         )
-                                            
-        return Response({'menssage': 'Usuário criado com sucesso', 'id': usuario.id}, status=status.HTTP_201_CREATED)
+
+        return Response({'menssage': 'Usuário criado com sucesso', 'id': usuario.id, 'status': status.HTTP_201_CREATED})
+    
     def put(self, request, id):
         usuario = get_object_or_404(CustomUser, id=id)
+        senha = request.data.get('password', None)
+        if senha and usuario.password != senha:
+            request.data['password'] = make_password(senha)
+
         serializer = UserSerializer(usuario, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -46,9 +51,9 @@ class User(APIView):
         usuario = get_object_or_404(CustomUser, id=id)
         if usuario:
             usuario.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response({'status':status.HTTP_200_OK})
         else:
-            return Response(status=status.HTTP_404_NOT_FOUND)  
+            return Response({'status':status.HTTP_404_NOT_FOUND})  
     
 class Login (APIView):
     def post(self, request):
@@ -64,11 +69,9 @@ class Login (APIView):
 
 class GetDadosUsuarioLogado(APIView):
     def get(self, request): 
-
-        user_id = request.session.get('_auth_user_id')
-
-        if user_id:
-            user = CustomUser.objects.filter(id=user_id).first()
+        usuario_id = request.session.get('_auth_user_id')
+        if usuario_id:
+            user = CustomUser.objects.filter(id=usuario_id).first()
             serializer = UserSerializer(user)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
